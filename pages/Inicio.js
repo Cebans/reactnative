@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 
-function Inicio({ navigation }) {
+
+
+export default function Inicio({ navigation }) {
   return (
     <View>
       <Text>Página de Inicio</Text>
@@ -16,5 +18,3 @@ function Inicio({ navigation }) {
     </View>
   );
 }
-
-export default Inicio;
