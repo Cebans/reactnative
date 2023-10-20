@@ -9,18 +9,22 @@ function ListaEstudiantes({ navigation }) {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    fetch(' http://localhost:3001/api/v1/getPersonas')
+    fetch('http://localhost:3001/api/v1/getPersonas')
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Error en la solicitud');
+          throw new Error('Error en la solicitud: ' + response.statusText);
         }
         return response.json();
       })
       .then((data) => {
-        setEstudiantes(data);
+        if (Array.isArray(data)) {
+          setEstudiantes(data);
+        } else {
+          throw new Error('La respuesta no es un arreglo válido.');
+        }
       })
       .catch((error) => {
-        console.error(error);
+        console.error('Error de solicitud:', error);
       });
   }, []);
 

@@ -12,15 +12,19 @@ function ListaCursos({ navigation }) {
     fetch('http://localhost:3001/api/v1/getCursos')
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Error en la solicitud');
+          throw new Error('Error en la solicitud: ' + response.statusText);
         }
         return response.json();
       })
       .then((data) => {
-        setCursos(data);
+        if (Array.isArray(data)) {
+          setCourses(data);
+        } else {
+          throw new Error('Respuesta no es un array');
+        }
       })
       .catch((error) => {
-        console.error(error);
+        console.error('Error de solicitud:', error);
       });
   }, []);
 
