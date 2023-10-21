@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import SearchBar from '../components/searchBar';
 
 const Drawer = createDrawerNavigator();
 
@@ -33,20 +34,14 @@ function ListaCursos({ navigation }) {
   );
 
   return (
-    <View>
-      <Text>Lista de Cursos:</Text>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.toggleDrawer();
-        }}
-      >
-        <Text>Mostrar Menú</Text>
-      </TouchableOpacity>
-      <TextInput
+    <View style={styles.container}>
+
+      <SearchBar searchText={searchText} setSearchText={setSearchText}/>
+      {/* <TextInput
         placeholder="Buscar curso..."
         value={searchText}
         onChangeText={setSearchText}
-      />
+      /> */}
       <FlatList
         data={filteredCursos}
         keyExtractor={(item) => item.id.toString()}
@@ -60,8 +55,31 @@ function ListaCursos({ navigation }) {
           </TouchableOpacity>
         )}
       />
+
+      <Text style={styles.textH1}>Lista de Cursos:</Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.toggleDrawer();
+        }}
+      >
+        <Text style={styles.textH2}>Mostrar Menú</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 export default ListaCursos;
+
+const styles = StyleSheet.create({
+  container:{
+    margin:15
+  },
+  textH1:{
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  textH2:{
+    fontWeight: "bold",
+    fontSize: 16
+  }
+})
