@@ -18,8 +18,8 @@ function ListaCursos({ navigation }) {
         return response.json();
       })
       .then((data) => {
-        if (Array.isArray(data)) {
-          setCourses(data);
+        if (Array.isArray(data.data)) {
+          setCursos(data.data);
         } else {
           throw new Error('Respuesta no es un array');
         }
@@ -44,11 +44,11 @@ function ListaCursos({ navigation }) {
       /> */}
       <FlatList
         data={filteredCursos}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.cod.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('EstudiantesDelCurso', { courseId: item.id });
+              navigation.navigate('EstudiantesDelCurso', { courseId: item.cod });
             }}
           >
             <Text>{item.nombre}</Text>

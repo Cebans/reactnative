@@ -49,7 +49,7 @@ function ListaEstudiantes({ navigation }) {
           <TouchableOpacity
             onPress={() => {
               // Navegar a la pantalla de cursos asociados a este estudiante
-              navigation.navigate('CursosDelEstudiante', { studentId: item.id });
+              navigation.navigate('CursosDelEstudiante', { studentCod: item.cod });
             }}
           >
             <Text>{item.nombre}</Text>
