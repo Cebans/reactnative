@@ -6,28 +6,37 @@ import SearchBar from '../components/searchBar';
 const Drawer = createDrawerNavigator();
 
 function ListaEstudiantes({ navigation }) {
+  const [listPrincipal, setListaPrincipal] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:3001/api/v1/getPersonas')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error en la solicitud: ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setEstudiantes(data);
-        } else {
-          throw new Error('La respuesta no es un arreglo válido.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error de solicitud:', error);
-      });
-  }, []);
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (Array.isArray(data.data)) {
+        const estudiantes =[];
+        [...data.data].forEach(item=>{
+          const result = estudiantes.filter(estudiante=>estudiante.nombre==item.nombre);
+          if(result.length==0){
+            estudiantes.push(item);
+          }
+        });
+        setEstudiantes(estudiantes);
+        setListaPrincipal(data.data);
+      } else {
+        throw new Error('Respuesta no es un array');
+      }
+    })
+    .catch((error) => {
+      console.error('Error de solicitud:', error);
+    });
+}, []);
 
   const filteredEstudiantes = estudiantes.filter((estudiante) =>
     estudiante.nombre.toLowerCase().includes(searchText.toLowerCase())
@@ -37,19 +46,14 @@ function ListaEstudiantes({ navigation }) {
     <View style={styles.container}>
 
       <SearchBar searchText={searchText} setSearchText={setSearchText}/>
-      {/* <TextInput
-        placeholder="Buscar estudiante..."
-        value={searchText}
-        onChangeText={setSearchText}
-      /> */}
+ 
       <FlatList
         data={filteredEstudiantes}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.nombre.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              // Navegar a la pantalla de cursos asociados a este estudiante
-              navigation.navigate('CursosDelEstudiante', { studentCod: item.cod });
+              navigation.navigate('CursosDelEstudiante', { studentName: listPrincipal.filter(i=>i.nombre==item.nombre)});
             }}
           >
             <Text>{item.nombre}</Text>
