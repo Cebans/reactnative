@@ -37,12 +37,11 @@ function ListaCursos({ navigation }) {
     <View style={styles.container}>
 
       <SearchBar searchText={searchText} setSearchText={setSearchText}/>
-      {/* <TextInput
-        placeholder="Buscar curso..."
-        value={searchText}
-        onChangeText={setSearchText}
-      /> */}
-      <FlatList
+      
+
+      <Text style={styles.textH1}>Lista de Cursos:</Text>
+
+      <FlatList 
         data={filteredCursos}
         keyExtractor={(item) => item.cod.toString()}
         renderItem={({ item }) => (
@@ -51,19 +50,11 @@ function ListaCursos({ navigation }) {
               navigation.navigate('EstudiantesDelCurso', { courseId: item.cod });
             }}
           >
-            <Text>{item.nombre}</Text>
+            <Text style={styles.item}>{item.nombre}</Text>
           </TouchableOpacity>
         )}
       />
-
-      <Text style={styles.textH1}>Lista de Cursos:</Text>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.toggleDrawer();
-        }}
-      >
-        <Text style={styles.textH2}>Mostrar Menú</Text>
-      </TouchableOpacity>
+      
     </View>
   );
 }
@@ -73,6 +64,13 @@ export default ListaCursos;
 const styles = StyleSheet.create({
   container:{
     margin:15
+  },
+  item:{
+    backgroundColor: "#9DC4FF",
+    padding: 15,
+    marginVertical: 6,
+    marginHorizontal: 14,
+    fontSize: 15, 
   },
   textH1:{
     fontWeight: "bold",

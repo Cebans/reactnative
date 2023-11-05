@@ -46,7 +46,11 @@ function ListaEstudiantes({ navigation }) {
     <View style={styles.container}>
 
       <SearchBar searchText={searchText} setSearchText={setSearchText}/>
- 
+
+
+      <Text style={styles.textH1}>Lista de Estudiantes:</Text>
+    
+
       <FlatList
         data={filteredEstudiantes}
         keyExtractor={(item) => item.nombre.toString()}
@@ -56,19 +60,11 @@ function ListaEstudiantes({ navigation }) {
               navigation.navigate('CursosDelEstudiante', { studentName: listPrincipal.filter(i=>i.nombre==item.nombre)});
             }}
           >
-            <Text>{item.nombre}</Text>
+            <Text style={styles.item}>{item.nombre}</Text>
           </TouchableOpacity>
         )}
       />
 
-      <Text style={styles.textH1}>Lista de Estudiantes:</Text>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.toggleDrawer(); 
-        }}
-      >
-        <Text style={styles.textH2}>Mostrar Menú</Text>
-      </TouchableOpacity>
       
     </View>
   );
@@ -79,6 +75,13 @@ export default ListaEstudiantes;
 const styles = StyleSheet.create({
   container:{
     margin:15
+  },
+  item:{
+    backgroundColor: "#9DC4FF",
+    padding: 15,
+    marginVertical: 6,
+    marginHorizontal: 14,
+    fontSize: 15, 
   },
   textH1:{
     fontWeight: "bold",
